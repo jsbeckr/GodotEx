@@ -26,21 +26,21 @@ public static class GDx {
 
     /// <summary>
     /// Instantiates node from packed scene using its <paramref name="path"/>.
-    /// Nodes are automatically resolved using this method, see <see cref="NodeExtensions.ResolveNodePaths(Node)"/>.
+    /// Nodes are automatically resolved using this method, see <see cref="NodeExtensions.Resolve(Node)"/>.
     /// </summary>
     /// <param name="path">Packed scene path.</param>
     /// <param name="setup">Setup action.</param>
     /// <returns>Instantiated node.</returns>
     public static Node New(string path, Action<Node>? setup = null) {
         var node = GD.Load<PackedScene>(path).Instantiate();
-        node.ResolveNodePaths();
+        node.Resolve();
         setup?.Invoke(node);
         return node;
     }
 
     /// <summary>
     /// Instantiates node from packed scene using its <paramref name="path"/>.
-    /// Nodes are automatically resolved using this method, see <see cref="NodeExtensions.ResolveNodePaths(Node)"/>.
+    /// Nodes are automatically resolved using this method, see <see cref="NodeExtensions.Resolve(Node)"/>.
     /// </summary>
     /// <typeparam name="T">Node type.</typeparam>
     /// <param name="path">Packed scene path.</param>
@@ -48,7 +48,7 @@ public static class GDx {
     /// <returns>Instantiated node of type <typeparamref name="T"/>.</returns>
     public static T New<T>(string path, Action<T>? setup = null) where T : Node {
         var node = GD.Load<PackedScene>(path).Instantiate<T>();
-        node.ResolveNodePaths();
+        node.Resolve();
         setup?.Invoke(node);
         return node;
     }
@@ -57,7 +57,7 @@ public static class GDx {
     /// Instantiates node from packed scene by matching a tscn file with the same name 
     /// under the same folder as the script defining the target node, or using the path 
     /// if it is provided. See <see cref="PackedSceneAttribute"/>.
-    /// Nodes are automatically resolved using this method, see <see cref="NodeExtensions.ResolveNodePaths(Node)"/>.
+    /// Nodes are automatically resolved using this method, see <see cref="NodeExtensions.Resolve(Node)"/>.
     /// </summary>
     /// <param name="type">Node type.</param>
     /// <param name="setup">Setup action.</param>
@@ -67,7 +67,7 @@ public static class GDx {
     public static Node New(Type type, Action<Node>? setup = null) {
         var attribute = type.GetCustomAttribute<PackedSceneAttribute>();
         var node = attribute == null ? (Node)Activator.CreateInstance(type)! : PackedSceneUtils.GetPackedScene(type).Instantiate();
-        node.ResolveNodePaths();
+        node.Resolve();
         setup?.Invoke(node);
         return node;
     }
@@ -76,7 +76,7 @@ public static class GDx {
     /// Instantiates node from packed scene by matching a tscn file with the same name 
     /// under the same folder as the script defining the target node, or using the path 
     /// if it is provided. See <see cref="PackedSceneAttribute"/>.
-    /// Nodes are automatically resolved using this method, see <see cref="NodeExtensions.ResolveNodePaths(Node)"/>.
+    /// Nodes are automatically resolved using this method, see <see cref="NodeExtensions.Resolve(Node)"/>.
     /// </summary>
     /// <typeparam name="T">Node type.</typeparam>
     /// <param name="setup">Setup action.</param>
@@ -87,7 +87,7 @@ public static class GDx {
         var type = typeof(T);
         var attribute = type.GetCustomAttribute<PackedSceneAttribute>();
         var node = attribute == null ? Activator.CreateInstance<T>() : PackedSceneUtils.GetPackedScene(type).Instantiate<T>();
-        node.ResolveNodePaths();
+        node.Resolve();
         setup?.Invoke(node);
         return node;
     }

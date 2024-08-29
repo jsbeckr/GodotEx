@@ -27,19 +27,19 @@ public class InputManager {
     /// Adds input handler for <see cref="InputEvent"/>s which matches all input events that satisfy <paramref name="predicate"/>.
     /// </summary>
     /// <typeparam name="TInputEvent">Type of <see cref="InputEvent"/> to handle.</typeparam>
-    /// <param name="name">Name of the handler.</param>
+    /// <param name="id">Id of the handler.</param>
     /// <param name="predicate">Predicate which matches event to handle.</param>
     /// <param name="handler">Handler to call if input event matches successfully.</param>
     /// <param name="pass">Whether the input would be passed to its parent after it has been handled.</param>
-    public void AddHandler<TInputEvent>(string name,
-                                        Func<TInputEvent, bool> predicate,
+    public void AddHandler<TInputEvent>(string id,
+                                        Predicate<TInputEvent> predicate,
                                         Action<TInputEvent> handler,
                                         bool pass = false)
                                             where TInputEvent : InputEvent {
-        if (_handlers.ContainsKey(name)) {
-            throw new ArgumentException($"{name} has already been registered.");
+        if (_handlers.ContainsKey(id)) {
+            throw new ArgumentException($"{id} has already been registered.");
         }
-        _handlers.Add(name, new InputHandler<TInputEvent>(name, predicate, handler, pass));
+        _handlers.Add(id, new InputHandler<TInputEvent>(id, predicate, handler, pass));
     }
 
     /// <summary>
@@ -48,42 +48,42 @@ public class InputManager {
     /// <param name="handler">Handler to add.</param>
     /// <exception cref="ArgumentException"></exception>
     public void AddHandler<T>(InputHandler<T> handler) where T : InputEvent {
-        if (!_handlers.TryAdd(handler.Name, handler)) {
-            throw new ArgumentException($"{handler.Name} has already been registered.");
+        if (!_handlers.TryAdd(handler.Id, handler)) {
+            throw new ArgumentException($"{handler.Id} has already been registered.");
         }
     }
 
     /// <summary>
-    /// Removes input handler with the given <paramref name="name"/>.
+    /// Removes input handler with the given <paramref name="id"/>.
     /// </summary>
-    /// <param name="name">Name of the handler to remove.</param>
+    /// <param name="id">Name of the handler to remove.</param>
     /// <exception cref="ArgumentException">Handler was not registered.</exception>
-    public void RemoveHandler(string name) {
-        if (!_handlers.Remove(name)) {
-            throw new ArgumentException($"{name} was not registered.");
+    public void RemoveHandler(string id) {
+        if (!_handlers.Remove(id)) {
+            throw new ArgumentException($"{id} was not registered.");
         }
     }
 
     /// <summary>
-    /// Enables input handler by its given <paramref name="name"/>.
+    /// Enables input handler by its given <paramref name="id"/>.
     /// </summary>
-    /// <param name="name">Name of the handler to enable.</param>
+    /// <param name="id">Name of the handler to enable.</param>
     /// <exception cref="ArgumentException">Handler was not registered.</exception>
-    public void EnableHandler(string name) {
-        if (!_handlers.TryGetValue(name, out var handler)) {
-            throw new ArgumentException($"{name} was not registered.");
+    public void EnableHandler(string id) {
+        if (!_handlers.TryGetValue(id, out var handler)) {
+            throw new ArgumentException($"{id} was not registered.");
         }
         handler.Disabled = false;
     }
 
     /// <summary>
-    /// Disables input handler by its given <paramref name="name"/>.
+    /// Disables input handler by its given <paramref name="id"/>.
     /// </summary>
-    /// <param name="name">Name of the handler to disable.</param>
+    /// <param name="id">Name of the handler to disable.</param>
     /// <exception cref="ArgumentException">Handler was not registered.</exception>
-    public void DisableHandler(string name) {
-        if (!_handlers.TryGetValue(name, out var handler)) {
-            throw new ArgumentException($"{name} was not registered.");
+    public void DisableHandler(string id) {
+        if (!_handlers.TryGetValue(id, out var handler)) {
+            throw new ArgumentException($"{id} was not registered.");
         }
         handler.Disabled = true;
     }

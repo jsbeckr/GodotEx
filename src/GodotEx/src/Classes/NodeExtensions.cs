@@ -25,8 +25,8 @@ public static partial class NodeExtensions {
     }
 
     /// <summary>
-    /// Resolve <paramref name="node"/> the node's node paths, layers and masks.
-    /// See <see cref="ResolveNodePaths(Node)"/> and <see cref="ResolveBitFlags(Node)"/>.
+    /// Resolve <paramref name="node"/> the node's node paths, bit flags and group.
+    /// See <see cref="ResolveNodePaths(Node)"/>, <see cref="ResolveBitFlags(Node)"/> and <see cref="ResolveGroup(Node)"/>.
     /// Resolving more than once has no effect and finishes in time O(1);
     /// </summary>
     /// <param name="node">Node to resolve.</param>
@@ -37,6 +37,7 @@ public static partial class NodeExtensions {
 
         node.ResolveNodePaths();
         node.ResolveBitFlags();
+        node.ResolveGroup();
 
         node.SetMeta(RESOLVED, true);
     }

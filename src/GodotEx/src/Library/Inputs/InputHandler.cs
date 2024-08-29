@@ -7,27 +7,27 @@ namespace GodotEx;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public class InputHandler<T> : IInputHandler where T : InputEvent {
-    private readonly Func<T, bool> _predicate;
+    private readonly Predicate<T> _predicate;
     private readonly Action<T> _callback;
 
     /// <summary>
     /// Constructs an new input handler object.
     /// </summary>
-    /// <param name="name">Name of the handler.</param>
+    /// <param name="id">Id of the handler.</param>
     /// <param name="pass">True input would be passed to its parent after it has been handled.</param>
     /// <param name="predicate">Predicate to satisfy upon handling input events.</param>
     /// <param name="callback">Handler to execute when predicate is satisfied.</param>
-    public InputHandler(string name, Func<T, bool> predicate, Action<T> callback, bool pass = false) {
-        Name = name;
+    public InputHandler(string id, Predicate<T> predicate, Action<T> callback, bool pass = false) {
+        Id = id;
         _predicate = predicate;
         _callback = callback;
         Pass = pass;
     }
 
     /// <summary>
-    /// Name of the handler.
+    /// Id of the handler.
     /// </summary>
-    public string Name { get; }
+    public string Id { get; }
 
     /// <summary>
     /// Whether the input would be passed to its parent after it has been handled.
