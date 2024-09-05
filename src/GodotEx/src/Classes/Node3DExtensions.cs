@@ -109,4 +109,29 @@ public static class Node3DExtensions {
     /// <param name="node">Node to use.</param>
     /// <returns>Unit vector pointing back relative to the node in global space.</returns>
     public static Vector3 GlobalBack(this Node3D node) => node.GlobalTransform.Back();
+
+    /// <summary>
+    /// Rotates the node around a pivot point.
+    /// </summary>
+    /// <param name="node">Node to rotate.</param>
+    /// <param name="pivot">Pivot point.</param>
+    /// <param name="axis">Rotation axis.</param>
+    /// <param name="angle">Rotation angle in radians.</param>
+    public static void RotateAround(this Node3D node, Vector3 pivot, Vector3 axis, float angle) {
+        var offset = node.GlobalPosition - pivot;
+        var rotated = offset.Rotated(axis, angle);
+        node.GlobalPosition = pivot + rotated;
+        node.Rotate(axis, angle);
+    }
+
+    /// <summary>
+    /// Rotates the node around a pivot point.
+    /// </summary>
+    /// <param name="node">Node to rotate.</param>
+    /// <param name="pivot">Pivot point.</param>
+    /// <param name="axis">Rotation axis.</param>
+    /// <param name="angle">Rotation angle in radians.</param>
+    public static void RotateAround(this Node3D node, Node3D pivot, Vector3 axis, float angle) {
+        node.RotateAround(pivot.GlobalPosition, axis, angle);
+    }
 }
