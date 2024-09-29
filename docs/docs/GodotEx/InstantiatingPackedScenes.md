@@ -23,22 +23,22 @@ With the `GDx` utilities, you can instantiate packed scenes a lot easier in a fe
    ```csharp
    var player = GDx.New<Player>("res://Path/To/Player.tscn");
    ```
-2. Providing an explicit scene path with the `[ScenePath]` attribute and using `GDx.New<T>()`
+2. Providing an explicit scene path with the `[PackedScene]` attribute and using `GDx.New<T>()`
 
    ```csharp
-   // Define [ScenePath] in your custom class
-   [ScenePath("res://Path/To/Player.tscn")]
+   // Define [PackedScene] in your custom class
+   [PackedScene("res://Path/To/Player.tscn")]
    public partial class Player : CharacterBody3D { }
 
    // Call GDx.New() elsewhere
    var player = GDx.New<Player>()
    ```
 
-3. Defining the `[ScenePath]` attribute with an implicit path and using `GDx.New<T>()`
+3. Defining the `[PackedScene]` attribute with an implicit path and using `GDx.New<T>()`
 
    ```csharp
-   // Define [ScenePath] in your custom class
-   [ScenePath]
+   // Define [PackedScene] in your custom class
+   [PackedScene]
    public partial class Player : CharacterBody3D { }
 
    // Call GDx.New() elsewhere
